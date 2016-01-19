@@ -17,5 +17,6 @@ function getSessionUser() {
     return  $usuario;
     
 }
+ 
 
 

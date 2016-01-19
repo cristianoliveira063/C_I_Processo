@@ -43,16 +43,38 @@ function ValidaData($dat) {
         return false;
     }
     
+     
+}
+
+
+ //var_dump(ctype_digit($variavel));
+    // var_dump(strlen($variavel));
+
+ function is_digito($param) {
+    if(empty($param)){
+        
+        return false;
+        
+    }
+       
+     return ctype_digit($param); 
+        
+        
+}
+
+function nome_valido($valor){
     
-   
-    
-    
-    
-    
-    
-    
-    
-    
+  $padrao = "/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/";
+  if(!empty($valor) && preg_match($padrao,$valor)){
+      
+      return TRUE;
+      
+  }
+  
+    return FALSE;
     
     
 }
+
+
+

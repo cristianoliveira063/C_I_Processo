@@ -12,8 +12,8 @@
 
                     </div>
                     <div class="modal-footer ">
-                        <a type="button"  href="<?= site_url('login/sairSistema')?>"class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</a>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+                        <a type="button"  href="<?= site_url('login/sairSistema')?>"class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Sim</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Não</button>
                     </div>
                 </div>
                 <!-- /.modal-content --> 

@@ -25,7 +25,7 @@
     <div class="form-group">
         <label class="col-md-4 control-label" for="nascimento">Data Nascimento:</label>
         <div class="col-md-5">
-            <input  id="datepicker" required="required" name="nascimento" value="<?php echo set_value('nascimento', ""); ?>"  type="text" placeholder="dd/mm/yyyy" class="form-control input-md nascimento " >
+            <input  id="datepicker" required="required" name="nascimento" value="<?php echo set_value('nascimento', ""); ?>"  type="text" placeholder="dd/mm/yyyy" class="form-control input-md nascimento data " >
 
         </div>
     </div>
