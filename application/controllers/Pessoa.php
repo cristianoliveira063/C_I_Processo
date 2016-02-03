@@ -21,10 +21,10 @@ class Pessoa extends MY_Controller {
         $this->load();
     }
 
-    public function adicionarPessoa() {
+    public function adicionar() {
         $this->form_validation->set_rules('nome', 'Nome', 'trim|required');
         $this->form_validation->set_rules('cpf', 'CPF', 'required|numeric|exact_length[11]|is_unique[pessoa.cpf]');
-        $this->form_validation->set_rules('nascimento', 'Data de Nascimento', 'required|callback_isdataValida');
+        $this->form_validation->set_rules('nascimento', 'Data de Nascimento', 'required|data_valida');
         $this->form_validation->set_rules('fone', 'Fone', 'required|numeric');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[pessoa.email]');
         $this->form_validation->set_rules('bairro', 'Bairro', 'required');
@@ -41,6 +41,7 @@ class Pessoa extends MY_Controller {
             $this->PessoaModel->data_nascimento = dataPtBrParaMysql($this->input->post('nascimento'));
             $this->PessoaModel->telefone = removeMask($this->input->post('fone'));
             $this->PessoaModel->email = $this->input->post('email');
+            $this->PessoaModel->tipo_pessoa = 2;
             $this->EnderecoModel->bairro = $this->input->post('bairro');
             $this->EnderecoModel->estado = $this->input->post('estado');
             $this->EnderecoModel->cidade = $this->input->post('cidade');
@@ -48,25 +49,25 @@ class Pessoa extends MY_Controller {
             $this->EnderecoModel->logradouro = $this->input->post('logradouro');
             $this->EnderecoModel->insertPessoaComEndereco($this->PessoaModel);
             $this->session->set_flashdata("success", "cadastro efetuado com sucesso.");
-            redirect('/Pessoa');
+            redirect('/pessoa');
         } else {
-
+          
             $data['estados'] = $this->EstadoModel->SelectAllEstados();
             $this->load->template('pessoa/cadastroPessoaView', $data);
         }
     }
 
-    public function incluirPessoaProcesso() {
+    public function incluirProcesso() {
         $this->output->enable_profiler(TRUE);
         $this->form_validation->set_rules('cpf', 'CPF', 'required|numeric|exact_length[11]');
-        if ($this->form_validation->run() == TRUE) {
+        if ($this->form_validation->run()) {
 
             $cpf = $this->input->post('cpf');
             $pessoa = $this->PessoaModel->getPessoaByCpf($cpf);
             if (isset($pessoa)) {
 
                 $this->session->set_flashdata("dados", $pessoa);
-                redirect('/Processo');
+                redirect('/processo');
             } else {
 
                 $this->session->set_flashdata("danger", "CPF informado não encontrado.");
@@ -78,37 +79,13 @@ class Pessoa extends MY_Controller {
         }
     }
 
-    public function pesquisarPessoa() {
+    public function pesquisar() {
 
         $this->load->template('pessoa/pesquisarPessoaView');
     }
 
-    public function isdataValida($nascimento) {
-
-        if (!preg_match("~^\d{2}/\d{2}/\d{4}$~", $nascimento)) {
-
-            $this->form_validation->set_message("isdataValida", " '%s' não é uma data válida");
-            return false;
-        }
-
-        $data = explode("/", "$nascimento"); // fatia a string $dat em pedados, usando / como referência
-        $d = $data[0];
-        $m = $data[1];
-        $y = $data[2];
-
-        // verifica se a data é válida!
-        // 1 = true (válida)
-        // 0 = false (inválida)
-        $res = checkdate($m, $d, $y);
-        if ($res == 1) {
-            return true;
-        } else {
-
-            $this->form_validation->set_message("isdataValida", " '%s' não é uma data válida");
-            return false;
-        }
-    }
-
+   
+  
     public function load() {
 
         $this->load->model('PessoaModel', '', TRUE);

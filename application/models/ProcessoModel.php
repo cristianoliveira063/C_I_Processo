@@ -38,7 +38,7 @@ class ProcessoModel extends CI_Model {
             return NULL;
         }
 
-      
+
         $this->db->select("processo.*", FALSE);
         $this->db->select("pessoa.nome", FALSE);
         $this->db->select("pessoa.cpf", FALSE);
@@ -48,7 +48,7 @@ class ProcessoModel extends CI_Model {
         $this->db->join('pessoa', 'pessoa.id_pessoa = processo.pessoa_id');
         $this->db->join('tipo_processo', 'tipo_processo.id_tipo_processo = processo.id_tipo_processo');
         $query = $this->db->get();
-        //return $query->result_object();
+
         return $query->row_object();
     }
 
@@ -57,7 +57,7 @@ class ProcessoModel extends CI_Model {
         return $query->result_object();
     }
 
-    public function getAllProcessoExibir() {
+    public function getAllProcessoExibir($maximo, $inicio) {
 
         $this->db->select("processo.*", FALSE);
         $this->db->select("pessoa.nome", FALSE);
@@ -67,6 +67,7 @@ class ProcessoModel extends CI_Model {
         $this->db->from('processo');
         $this->db->join('pessoa', 'pessoa.id_pessoa = processo.pessoa_id');
         $this->db->join('tipo_processo', 'tipo_processo.id_tipo_processo = processo.id_tipo_processo');
+        $this->db->limit($maximo, $inicio);
         $query = $this->db->get();
         return $query->result_object();
     }
@@ -96,21 +97,50 @@ class ProcessoModel extends CI_Model {
         $this->db->delete('processo');
     }
 
-    public function getProcessoByLike($atributo, $valor) {
+    public function getProcessoByLike($param) {
 
-        //$this->db->like($atributo, $valor);
-        //$query = $this->db->get('processo');
-        $this->db->select("processo.*",FALSE);
-        $this->db->select("pessoa.nome as nome",FALSE);
-        $this->db->select("pessoa.cpf",FALSE);
-        $this->db->select("pessoa.email",FALSE);
-        $this->db->select("tipo_processo.nome_tipo_processo",FALSE);
+        $this->db->select("processo.*", FALSE);
+        $this->db->select("pessoa.nome as nome", FALSE);
+        $this->db->select("pessoa.cpf", FALSE);
+        $this->db->select("pessoa.email", FALSE);
+        $this->db->select("tipo_processo.nome_tipo_processo", FALSE);
         $this->db->from('processo');
-        $this->db->like($atributo,$valor);
+        $this->db->like($param['atributo'], $param['valor']);
         $this->db->join('pessoa', 'pessoa.id_pessoa = processo.pessoa_id');
         $this->db->join('tipo_processo', 'tipo_processo.id_tipo_processo = processo.id_tipo_processo');
+        $this->db->limit($param['maximo'], $param['inicio']);
         $query = $this->db->get();
         return $query->result_object();
+    }
+
+    public function contaProcessos() {
+        return $this->db->count_all_results('processo');
+    }
+
+    public function contaProcessoslike($param) {
+
+        $this->db->select("processo.*", FALSE);
+        $this->db->select("pessoa.nome as nome", FALSE);
+        $this->db->select("pessoa.cpf", FALSE);
+        $this->db->select("pessoa.email", FALSE);
+        $this->db->select("tipo_processo.nome_tipo_processo", FALSE);
+        $this->db->from('processo');
+        $this->db->like($param['atributo'], $param['valor']);
+        $this->db->join('pessoa', 'pessoa.id_pessoa = processo.pessoa_id');
+        $this->db->join('tipo_processo', 'tipo_processo.id_tipo_processo = processo.id_tipo_processo');
+        return $query = $this->db->count_all_results();
+    }
+
+    public function editarProcesso() {
+
+        $processo = array(
+            'descricao' => $this->descricao,
+            'status_processo' => $this->status_processo,
+            'data_encerramento' => $this->data_encerramento
+        );
+
+        $this->db->where('id_processo', $this->id_processo);
+        $this->db->update('processo', $processo);
     }
 
 }

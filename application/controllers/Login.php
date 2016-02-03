@@ -16,18 +16,18 @@ class Login extends CI_Controller {
     }
 
     public function index() {
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
         $usuarioLogado = $this->session->userdata("usuario");
         if (!$usuarioLogado) {
             $this->load->view("loginView");
             return;
         }
 
-        redirect("/Pessoa");
+        redirect("/pessoa");
     }
 
     public function verificarUser() {
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('senha', 'Senha', 'required');
         if (!$this->form_validation->run()) {
@@ -54,7 +54,7 @@ class Login extends CI_Controller {
         if ($usuarioLogado) {
 
             $this->session->unset_userdata("usuario");
-            redirect('/Login');
+            redirect('/login');
         }
     }
 

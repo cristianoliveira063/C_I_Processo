@@ -1,17 +1,17 @@
 
-<?php echo form_open('Pessoa/adicionarPessoa', 'class="form-horizontal"'); ?>
+<?php echo form_open('Pessoa/adicionar', 'class="form-horizontal"'); ?>
 
 <fieldset  style="margin-top: 40px">
     <?php echo validation_errors("<div style='text-align: center' class = 'alert-danger'><strong> ", "</strong></div>") ?>
     <br/>
     <!-- Form Name -->
-    <legend style="text-align: center">Cadastro de pessoa</legend>
+    <legend style="text-align: center">Cadastro de Pessoa</legend>
 
     <!-- Text input-->
     <div class="form-group">
         <label class="col-md-4 control-label" for="nome">Nome:</label>
         <div class="col-md-5">
-            <input id="nome" name="nome" value="<?php echo set_value('nome', ""); ?>" required="required" type="text" placeholder="Informe seu nome" class="form-control input-md" >
+            <input id="nome" name="nome" autofocus value="<?php echo set_value('nome', ""); ?>" required="required" type="text" placeholder="Informe seu nome" class="form-control input-md" >
 
         </div>
     </div>
@@ -25,7 +25,7 @@
     <div class="form-group">
         <label class="col-md-4 control-label" for="nascimento">Data Nascimento:</label>
         <div class="col-md-5">
-            <input  id="datepicker" required="required" name="nascimento" value="<?php echo set_value('nascimento', ""); ?>"  type="text" placeholder="dd/mm/yyyy" class="form-control input-md nascimento data " >
+            <input  id="datepicker" required="required" name="nascimento" value="<?php echo set_value('nascimento', ""); ?>"  type="date" placeholder="dd/mm/yyyy" class="form-control input-md nascimento data " >
 
         </div>
     </div>
@@ -64,7 +64,7 @@
                 
                 <?php foreach ($estados as $estado) : ?>
 
-                <option value="<?= $estado->id_estado ?>" <?=($estado->id_estado == set_value('estado', ""))?'selected':''?>> <?= $estado->nome ?>  </option>
+                <option value="<?= $estado->id_estado ?>" <?=($estado->id_estado == set_value('estado', ""))?'selected':''?>> <?= $estado->nome_uf ?>  </option>
 
                 <?php endforeach ?>
 

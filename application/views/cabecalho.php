@@ -92,24 +92,24 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-              <li><a href="<?= site_url('/') ?>">Cadastro Pessoas</a></li>
-               <li><a href="<?php echo site_url('Pessoa/pesquisarPessoa') ?>">Cadastro Processo</a></li>
+              <li><a href="<?= site_url('/pessoa') ?>">Cadastro Pessoas</a></li>
+               <li><a href="<?php echo site_url('pessoa/pesquisar') ?>">Cadastro Processo</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="<?php echo site_url('/listaProcesso') ?>">Lista Processo</a></li>
-                <li><a href="#">Lista de Pessoas</a></li>
+                <li><a href="<?php echo site_url('/listaProcesso/') ?>">Lista de Processos</a></li>
+                <li><a href="<?php echo site_url('/listaPessoa/') ?>">Lista de Pessoas</a></li>
                 <li><a href="#">Controle Usuário</a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">Processo</li>
-                <li><a href="#">Fechar Processo</a></li>
-                <li><a href="#">Reabrir Processo</a></li>
+                <li><a href="<?= site_url('processo/abrirConsulta')?>">Fechar Processo</a></li>
+                <li><a href="<?= site_url('processo/abrirConsulta')?>">Reabrir Processo</a></li>
               </ul>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-              <li><a href="<?= site_url('processo/abrirConsultaProcesso')?>">Consulta Processo</a></li>
-            <li ><a href="<?= site_url('/Usuario/') ?>">Cadastro Usuário<span class="sr-only">(current)</span></a></li>
+              <li><a href="<?= site_url('processo/abrirConsulta')?>">Consulta Processo</a></li>
+            <li ><a href="<?= site_url('/usuario/') ?>">Cadastro Usuário<span class="sr-only">(current)</span></a></li>
            <li class="active"><a href=""  data-toggle="modal" data-target="#sair" ><?= getSessionUser()== NULL ? 'Login' : 'Sair'?><span class="sr-only">(current)</span></a></li>
            </ul>
         </div><!--/.nav-collapse -->

@@ -10,7 +10,7 @@ class MY_Controller extends CI_Controller {
         $logado = $this->session->userdata("usuario");
      
         if (!$logado) {
-            redirect("/Login");
+            redirect("/login");
         }
     }
 

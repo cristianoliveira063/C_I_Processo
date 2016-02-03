@@ -1,5 +1,5 @@
 
-<?php echo form_open('Processo/adicionaProcesso', 'class="form-horizontal"'); ?>
+<?php echo form_open('Processo/adiciona', 'class="form-horizontal"'); ?>
 
 <fieldset >
     <?php echo validation_errors("<div style='text-align: center' class = 'alert-danger'><strong> ", "</strong></div>") ?>
@@ -61,28 +61,7 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="radios">Status Processo:</label>
-        <div class="col-md-5"> 
-            <label class="radio-inline" for="radios-0">  
-                <input type="radio" id="andamento" name="status" id="radios-0" value="2" checked="checked">
-                Em andamento
-            </label> 
-            <label class="radio-inline" for="radios-1">
-                <input type="radio" id="julgado" name="status" id="radios-1" value="1">
-                Julgado
-            </label> 
-
-        </div>
-    </div>
-
-    <div id="campodatafim" class="form-group" style="display: none">
-        <label class="col-md-4 control-label" for="dataencerramento">Data Fim do Processo :</label>
-        <div class="col-md-5">
-            <input   name="dataencerramento"  value=""  type="text"  class="form-control input-md data  " >
-
-        </div>
-    </div>
+ 
 
 
     <div class="form-group">
@@ -108,21 +87,21 @@
     $(document).ready(function () {
 
         $(".data").mask("99/99/9999");
-        $(document).ready(function () {
-            $("#julgado").click(function () {
-                 $('#campodatafim').show();
-                //var t =  $('input[id="status2"]').val();
+       // $(document).ready(function () {
+        //    $("#julgado").click(function () {
+            //     $('#campodatafim').show();
+             //   //var t =  $('input[id="status2"]').val();
               
 
-            });
+           // });
             
-             $("#andamento").click(function () {
-                 $('#campodatafim').hide();
+            // $("#andamento").click(function () {
+             //    $('#campodatafim').hide();
                 //var t =  $('input[id="status2"]').val();
               
 
-            });
-        });
+           // });
+       // });
 
 
 

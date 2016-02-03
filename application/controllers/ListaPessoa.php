@@ -3,25 +3,26 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of ListaProcesso
+ * Description of ListaPessoa
  *
  * @author 016255421
  */
-class ListaProcesso extends MY_Controller {
+class ListaPessoa extends MY_Controller {
 
     public function __construct() {
-
         parent::__construct();
         $this->load();
     }
 
     public function lista() {
-        $this->output->enable_profiler(TRUE);
-        $maximo = 10;
-        $inicio = (!$this->uri->segment("3")) ? 0 : $this->uri->segment("3");
-        $config['base_url'] = site_url("listaProcesso/lista");
 
-        $config['total_rows'] = $this->ProcessoModel->contaProcessos();
+        //$this->output->enable_profiler(TRUE);
+        $maximo =10;
+        $param['tipo'] = 2;
+        $inicio = (!$this->uri->segment("3")) ? 0 : $this->uri->segment("3");
+        $config['base_url'] = site_url("listaPessoa/lista");
+
+        $config['total_rows'] = $this->PessoaModel->contAllPessoa($param);
         $config['per_page'] = $maximo;
         $config['full_tag_open'] = '<ul class="pagination pull-right">';
         $config['full_tag_close'] = '</ul>';
@@ -32,7 +33,7 @@ class ListaProcesso extends MY_Controller {
 
         $config['last_link'] = '<span class="glyphicon glyphicon-chevron-right"></span><span class="glyphicon glyphicon-chevron-right"></span>';
         $config['last_tag_open'] = '<li>';
-        $config['last_tag_close'] = '</li>';
+        $config['last_tag_close'] = '</li>';        
 
         $config['next_link'] = '<span class="glyphicon glyphicon-chevron-right"></span>';
         $config['next_tag_open'] = '<li>';
@@ -49,51 +50,56 @@ class ListaProcesso extends MY_Controller {
         $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        $processo["paginacao"] = $this->pagination->create_links();
-        $processo["processos"] = $this->ProcessoModel->getAllProcessoExibir($maximo, $inicio);
-        $this->load->template("processo/listaProcessoView", $processo);
+        $pessoa["paginacao"] = $this->pagination->create_links();
+        $param['maximo'] = $maximo;
+        $param['inicio'] = $inicio;
+        $pessoa["pessoas"] = $this->PessoaModel->selectAllPessoa($param);
+        $this->load->template("pessoa/listaPessoaView",$pessoa);
     }
 
-    public function getProcessoJsonByid() {
+    public function getPessoaJsonId() {
+
         $id = $this->input->post('param');
-        $this->ProcessoModel = $this->ProcessoModel->getProcessoById($id);
-        $this->ProcessoModel->data_inicio = dataMysqlParaPtBr($this->ProcessoModel->data_inicio);
-        echo json_encode($this->ProcessoModel);
+        $this->PessoaModel = $this->PessoaModel->selectallPessoaById($id);
+        $this->PessoaModel->data_nascimento = dataMysqlParaPtBr($this->PessoaModel->data_nascimento);
+        echo json_encode($this->PessoaModel);
     }
 
     public function delete() {
-        $id = $this->input->post('id_processo');
-        $this->ProcessoModel->deleteProcessoById($id);
-        $this->session->set_flashdata("success", "Processo excluído com sucesso.");
-        redirect('/listaProcesso/');
+        $this->output->enable_profiler(TRUE);
+        $id = $this->input->post('id_pessoa');
+        $this->PessoaModel->deletePessoaById($id);
+        $this->session->set_flashdata("success", "Registro excluido com sucesso.");
+        redirect('listaPessoa/lista');
     }
 
-    public function pesquisa() {
+    public function pesquisar() {
+
         $this->output->enable_profiler(TRUE);
         $variavel = $this->input->post('pesquisa');
         $maximo = 10;
         $inicio = (!$this->uri->segment("3")) ? 0 : $this->uri->segment("3");
-        $config['base_url'] = site_url("listaProcesso/pesquisa");
+        $config['base_url'] = site_url("listaPessoa/pesquisar");
         $param['maximo'] = $maximo;
         $param['inicio'] = $inicio;
 
         if (is_digito($variavel) && strlen($variavel) > 4) {
-            $param['atributo'] = 'numero_processo';
+            $param['atributo'] = 'cpf';
             $param['valor'] = $variavel;
-            $processo['processos'] = $this->ProcessoModel->getProcessoByLike($param);
-            $config['total_rows'] = $this->ProcessoModel->contaProcessoslike($param);
+            $pessoa['pessoas'] = $this->PessoaModel->getPessoaByLike($param);
+            $config['total_rows'] = $this->PessoaModel->getContAllLike($param);
         } else if (nome_valido($variavel) && strlen($variavel) > 3) {
             $param['atributo'] = 'nome';
             $param['valor'] = $variavel;
-            $processo['processos'] = $this->ProcessoModel->getProcessoByLike($param);
-            $config['total_rows'] = $this->ProcessoModel->contaProcessoslike($param);
+            $pessoa['pessoas'] = $this->PessoaModel->getPessoaByLike($param);
+            $config['total_rows'] = $this->PessoaModel->getContAllLike($param);
         }
 
-        if (!isset($processo)) {
-            $processo['processos'] = $this->ProcessoModel->getAllProcessoExibir($maximo, $inicio);
-            $config['total_rows'] = $this->ProcessoModel->contaProcessos();
-          
-        }
+        if (!isset($pessoa)) {
+            $param['tipo'] = 2;
+            $pessoa["pessoas"] = $this->PessoaModel->selectAllPessoa($param);
+            $config['total_rows'] = $this->PessoaModel->contAllPessoa($param);
+         }
 
         $config['per_page'] = $maximo;
         $config['full_tag_open'] = '<ul class="pagination pull-right">';
@@ -122,14 +128,15 @@ class ListaProcesso extends MY_Controller {
         $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        $processo["paginacao"] = $this->pagination->create_links();
-        $this->load->template("processo/listaProcessoView", $processo);
+        $pessoa["paginacao"] = $this->pagination->create_links();
+        $this->load->template("pessoa/listaPessoaView", $pessoa);
     }
 
     public function load() {
-        $this->load->library('pagination');
-        $this->load->model('ProcessoModel', '', TRUE);
+
         $this->load->model('PessoaModel', '', TRUE);
+        $this->load->model('EnderecoModel', '', TRUE);
+        $this->load->model('EstadoModel', '', TRUE);
     }
 
 }

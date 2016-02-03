@@ -1,6 +1,7 @@
 
 
-<form id="formulario_cadastro" method="post" class="form-horizontal">
+
+ <?php echo form_open('/alterarProcesso','class="form-horizontal"'); ?>
 
     <script type="text/javascript">
 
@@ -10,7 +11,7 @@
                 var nump = $("#numero").val();
                 jQuery.ajax({
                     type: "POST",
-                    url: "<?php echo base_url(); ?>" + "index.php/processo/consultaProcesso",
+                    url: "<?php echo base_url(); ?>" + "index.php/processo/consulta",
                     // dataType: 'json', 
                     data: {numero: nump},
                     // beforeSend: function () {
@@ -30,8 +31,14 @@
                             //$('#resBusca').html('<p>' + res + '</p>');
                             $('#tabela').show();
                             var status = (result.status_processo === '1') ? 'Julgado' : 'Em andamento';
-                            $('#dados').html('<tr><td>' + result.nome + '</td><td>' + result.numero_processo + '</td><td>'
-                                    + result.data_inicio + '</td><td>' + result.nome_tipo_processo + '</td><td>' + status + '</td></tr>');
+                            // $('#dados').html('<tr><td>' + result.nome + '</td><td>' + result.numero_processo + '</td><td>'
+                            //    + result.data_inicio + '</td><td>' + result.nome_tipo_processo + '</td><td>' + status + '</td></tr>');
+                            $('#nome').html(result.nome);
+                            $('#numero_processo').html(result.numero_processo);
+                            $('#datainicio').html(result.data_inicio);
+                            $('#tipoprocesso').html(result.nome_tipo_processo);
+                            $('#status_processo').html(status);
+                            $('#id_processo').val(result.id_processo);
                             $('#erro').html('');
                         }
                     }
@@ -69,25 +76,55 @@
 
             <label class="col-md-4 control-label" for="numero">Número do Processo:</label>
             <div class="col-md-5">
-                <input  id="numero" name="numero" value="<?php echo set_value('numero', ""); ?>" required  minlength="12"  maxlength="12" type="text" placeholder="Número Processo" class="form-control input-md num " />
+                <input  id="numero" name="numero" value="<?php echo set_value('numero', ""); ?>" required ="required"  minlength="12"  maxlength="12" type="text" placeholder="Número Processo" class="form-control input-md num " />
                 <input   type="hidden" name="acao" value="pesquisar"  />
                 <div id="resBusca"></div>
 
             </div>
         </div> 
 
-        <table class="table table-bordered" id="tabela" style="display: none">
+        <table class="table table-bordered"  id="tabela" style="display: none" >
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Número Processo</th>
-                    <th>Data Inicio</th>
-                    <th>Tipo Processo</th>
-                    <th>Status Processo</th>
+                    <th style="text-align: center" >Nome</th>
+                    <th style="text-align: center">Número Processo</th>
+                    <th style="text-align: center">Data Inicio</th>
+                    <th style="text-align: center">Tipo Processo</th>
+                    <th style="text-align: center">Status Processo</th>
+                    <th style="text-align: center">Editar</th>
                 </tr>
             </thead>
-            <tbody id="dados">
+            <tbody id="dados" style="text-align: center">
 
+                <tr>
+                    <td id="nome">
+
+
+                    </td>
+                    <td id="numero_processo">
+
+
+                    </td>
+                    <td id="datainicio">
+
+
+                    </td>
+                    <td id="tipoprocesso">
+
+
+                    </td>
+                    <td id="status_processo">
+
+
+                    </td>
+
+                
+            <input type="hidden" name="id_processo" value="" id="id_processo"/>
+            <td><p data-placement="top" data-toggle="tooltip" title="Editar"><button  type="submit"  class="btn btn-primary btn-xs" data-title="Editar" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+         
+
+            </tr>
 
 
             </tbody>
@@ -110,7 +147,7 @@
     </fieldset>
 </form>
 
-</form>
+
 
 
 

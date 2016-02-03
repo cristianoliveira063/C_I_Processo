@@ -25,7 +25,7 @@ class Usuario extends MY_Controller {
     }
 
     public function pesquisaUser() {
-        $this->output->enable_profiler(TRUE);
+       // $this->output->enable_profiler(TRUE);
         $this->form_validation->set_rules('cpf', 'CPF', 'required|numeric|exact_length[11]');
 
         if (!$this->form_validation->run()) {
@@ -37,19 +37,19 @@ class Usuario extends MY_Controller {
         $this->PessoaModel = $this->PessoaModel->getPessoaByCpf($cpf);
         if ($this->PessoaModel == NULL) {
             $this->session->set_flashdata("danger", "Usuario informado não encontrado.");
-            redirect('/Usuario');
+            redirect('/usuario');
         } else {
             $usuario = $this->UsuarioModel->getUsuarioByCpf($this->PessoaModel->cpf);
             if ($usuario != NULL) {
                 $this->session->set_flashdata("danger", "Usuario já existe no sistema.");
-                redirect('/Usuario');
+                redirect('/usuario');
             }
             $dados['pessoa'] = $this->PessoaModel;
             $this->load->template("usuario/cadastroUsuarioView", $dados);
         }
     }
 
-    public function adicionaUsuario() {
+    public function adiciona() {
 
         $this->PessoaModel->nome = $this->input->post('nome');
         $this->PessoaModel->cpf = $this->input->post('cpf');
@@ -68,7 +68,7 @@ class Usuario extends MY_Controller {
         $this->UsuarioModel->status_acesso = 1;
         $this->UsuarioModel->insertUsuario();
         $this->session->set_flashdata("success", "Usuario cadastrado com sucesso.");
-        redirect('/Usuario');
+        redirect('/usuario');
     }
 
     public function load() {
@@ -77,4 +77,6 @@ class Usuario extends MY_Controller {
         $this->load->model('UsuarioModel', '', TRUE);
     }
 
+    
+    
 }

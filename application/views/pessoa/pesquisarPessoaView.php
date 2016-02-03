@@ -1,5 +1,5 @@
 
-<?php echo form_open('Pessoa/incluirPessoaprocesso', 'class="form-horizontal"'); ?>
+<?php echo form_open('Pessoa/incluirProcesso', 'class="form-horizontal"'); ?>
 
 <fieldset style="margin-top: 40px" >
     <?php echo validation_errors("<div style='text-align: center' class = 'alert-danger'><strong> ", "</strong></div>") ?>

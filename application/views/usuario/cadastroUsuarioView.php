@@ -1,5 +1,5 @@
 
-<?php echo form_open('Usuario/adicionaUsuario','class="form-horizontal"'); ?>
+<?php echo form_open('Usuario/adiciona','class="form-horizontal"'); ?>
 
 
 

@@ -27,21 +27,17 @@ class MY_Form_validation extends CI_Form_validation {
         return FALSE;
     }
 
-    public function data_Valida($str) {
+    public function data_valida($str) {
 
         if (!preg_match("~^\d{2}/\d{2}/\d{4}$~", $str)) { {
 
                 return false;
             }
 
-            $data = explode("/", "$str"); // fatia a string $dat em pedados, usando / como referência
+            $data = explode("/", "$str"); 
             $d = $data[0];
             $m = $data[1];
-            $y = $data[2];
-
-            // verifica se a data é válida!
-            // 1 = true (válida)
-            // 0 = false (inválida)
+            $y = $data[2];          
             $res = checkdate($m, $d, $y);
             return $res == 1;
         }

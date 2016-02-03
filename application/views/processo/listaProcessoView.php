@@ -5,18 +5,21 @@
 
 
         <div class="col-md-12">
-            <h4>Sistema de Controle de Processo</h4>
+
+            <h4>Sistema de Controle de Processo - Lista de Processos       
+            </h4>
+
 
             <div class="table-responsive">
 
-              
-                    <?php echo form_open('listaProcesso/pesquisaProcesso','class="navbar-form"'); ?>
-                    <div class="input-group">
-                        <input type="text" size="30" required class="form-control" placeholder="Nome ou Número do Processo" name="pesquisa">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                        </div>
+
+                <?php echo form_open('listaProcesso/pesquisa', 'class="navbar-form"'); ?>
+                <div class="input-group">
+                    <input type="text" size="30" class="form-control" placeholder="Nome ou Número do Processo" name="pesquisa">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
+                </div>
                 </form>
                 <table id="mytable" class="table table-bordered table-hover"  style="font-size: 13px;text-align: center">
 
@@ -62,16 +65,22 @@
 
                 </table>
 
+                           
+
                 <div class="clearfix"></div>
-                <ul class="pagination pull-right">
-                    <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                
+                  <?php
+                echo $paginacao;
+                ?> 
+               <!-- <ul class="pagination pull-right">
+                    <li ><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
                     <li class="active"><a href="#">1</a></li>
                     <li><a href="#">2</a></li>
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
                     <li><a href="#">5</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-                </ul>
+                </ul>-->
 
             </div>
 
@@ -134,7 +143,7 @@
                 <h4 class="modal-title custom_align" id="Heading">Deletar Processo</h4>
             </div>
             <div class="modal-body">
-                <?php echo form_open('ListaProcesso/deleteProcesso'); ?>
+                <?php echo form_open('ListaProcesso/delete'); ?>
                 <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Deseja excluir o processo selecionado?</div>
                 <div class="form-group">
                     <input class="form-control id_processo" name="id_processo" id="id_processo" type="hidden"  />

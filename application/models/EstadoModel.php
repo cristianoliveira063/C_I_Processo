@@ -10,7 +10,7 @@ class EstadoModel extends CI_Model {
     
     public $codigoIbge;
     public  $sigla;
-    public  $nome;
+    public  $nome_uf;
 
 
     public function __construct() {
